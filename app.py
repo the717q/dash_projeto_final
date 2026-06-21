@@ -8,7 +8,7 @@ st.markdown('Dashboard de produtos')
 
 @st.cache_data 
 def load_data():
-    file_name = "cçean_output.parquet"
+    file_name = "clean_output.parquet"
     df = pd.read_csv(file_name, parse_dates=["Order Date"])
     return df
 
