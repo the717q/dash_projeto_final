@@ -28,6 +28,29 @@ total_category =  df["category"].sum()
 #col1.metric("💰 Nº de ratings", f"{total_rating}")
 #col2.metric("📈 Lucro Total", f"${total_category:,.0f}")
 
+st.subheader('Top Produtos com Mais Avaliações')
+
+top_rated = (
+    df
+    .nlargest(10, 'rating_count')
+    .assign(short_name=lambda x: x['product_name'].str[:40] + "...")
+    .set_index('short_name')['rating_count']
+)
+
+st.bar_chart(top_rated)
+
+
+st.subheader('Top Produtos com Melhores avaliações')
+
+top_rated = (
+    df
+    .nlargest(10, 'rating')
+    .assign(short_name=lambda x: x['product_name'].str[:40] + "...")
+    .set_index('short_name')['rating']
+)
+
+st.bar_chart(top_rated)
+
 # Distribuição de preços após desconto:
 st.divider()
 
@@ -37,16 +60,12 @@ st.subheader("Distribuição de Preços após desconto")
 
 price_dist = (
     df
-    .assign(price_bin=pd.cut(df['discounted_price'], bins=20).astype(str))
+    .assign(price_bin=pd.cut(df['discounted_price'], bins=5).astype(str))
     .groupby('price_bin')
     .size()
 )
 
 st.bar_chart(price_dist)
-
-# Plot
-st.bar_chart(price_dist)
-
 
 st.divider()
 
@@ -76,13 +95,3 @@ dist = (
 st.bar_chart(dist)
 
 ####
-st.subheader('Top Produtos com Mais Avaliações')
-
-top_rated = (
-    df
-    .nlargest(10, 'rating_count')
-    .assign(short_name=lambda x: x['product_name'].str[:40] + "...")
-    .set_index('short_name')['rating_count']
-)
-
-st.bar_chart(top_rated)
