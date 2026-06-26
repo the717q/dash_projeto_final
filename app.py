@@ -28,6 +28,17 @@ total_category =  df["category"].sum()
 #col1.metric("💰 Nº de ratings", f"{total_rating}")
 #col2.metric("📈 Lucro Total", f"${total_category:,.0f}")
 
+
+top_rated = (
+    df
+    .nlargest(10, 'rating_count')
+    .assign(short_name=lambda x: x['product_name'].str[:40] + "...")
+    .set_index('short_name')['rating_count']
+)
+
+
+# Top Produtos com Mais Avaliações
+
 st.subheader('Top Produtos com Mais Avaliações')
 
 top_rated = (
@@ -39,6 +50,7 @@ top_rated = (
 
 st.bar_chart(top_rated)
 
+# Top Produtos com Melhores avaliações
 
 st.subheader('Top Produtos com Melhores avaliações')
 
@@ -69,7 +81,7 @@ st.bar_chart(price_dist)
 
 st.divider()
 
-#####
+## Distribuição da percentagem de desconto
 
 st.subheader("Distribuição da percentagem de desconto")
 
@@ -84,6 +96,8 @@ st.bar_chart(dist)
 
 st.divider()
 
+## Distribuição da variável rating
+
 st.subheader("Distribuição da variável rating")
 
 dist = (
@@ -94,4 +108,13 @@ dist = (
 
 st.bar_chart(dist)
 
-####
+# Top Produtos com mais repetições no dataset
+
+st.subheader('Top Produtos com mais repetições no dataset')
+
+top_repeated = (
+    df['category'].value_counts().head(5)
+)
+
+st.bar_chart(top_repeated)
+
