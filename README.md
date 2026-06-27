@@ -1,2 +1,3 @@
-# dash_projeto_final
-Dashboard para o projeto final
+### Acesso ao repositório:
+
+## https://github.com/the717q/dash_projeto_final/tree/main
